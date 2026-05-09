@@ -1,1 +1,0 @@
-"""Gesture recognition package placeholder."""
