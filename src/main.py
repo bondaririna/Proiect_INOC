@@ -681,6 +681,58 @@ def _is_index_only_down_pose(hand_landmarks, mp_hands) -> bool:
     return index_down and middle_down and ring_down and pinky_down
 
 
+def _draw_gesture_menu(frame) -> None:
+    # Deseneaza in partea dreapta un meniu compact cu gesturile disponibile
+    h, w, _ = frame.shape
+    menu_width = 340
+    padding = 14
+    x0 = max(8, w - menu_width - 80)
+    y0 = 10
+    x1 = w - 10
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    line_h = 22
+
+    entries = [
+        "Swipe dreapta (toate degetele) -> +5s YouTube",
+        "Swipe stanga (toate degetele)  -> -5s YouTube",
+        "Palma deschisa (o mana)      -> Play/Pause",
+        "2 palme deschise             -> View/hide timer",
+        "2 degete ridicate (cu timer)   -> +5 min timer",
+        "Pumn inchis (cu timer)       -> Play/Pause timer",
+        "Aratator in sus in miscare     -> Volum +",
+        "Aratator in jos mentinut       -> Volum -",
+        "2 aratatoare incrucisate (X)   -> Ctrl+W ",
+        "TASTA Q - inchide aplicatia",
+    ]
+    # Calcul dinamic al inaltimii pentru a incadra toate liniile
+    y1 = y0 + padding + 12 + (len(entries) + 1) * line_h + padding
+
+    cv2.rectangle(frame, (x0, y0), (x1, y1), (15, 15, 15), -1)
+    cv2.rectangle(frame, (x0, y0), (x1, y1), (60, 60, 60), 1)
+
+    x_text = x0 + padding
+    y_text = y0 + padding + 4
+
+    cv2.putText(frame, "Gesturi disponibile", (x_text, y_text), font, 0.55, (0, 215, 255), 2)
+    y_text += line_h
+    for idx, entry in enumerate(entries):
+        is_last = idx == len(entries) - 1
+        color = (0, 0, 255) if is_last else (255, 255, 255)
+        scale = 0.52 if is_last else 0.48
+        thickness = 2 if is_last else 1
+        cv2.putText(
+            frame,
+            entry,
+            (x_text, y_text),
+            font,
+            scale,
+            color,
+            thickness,
+            cv2.LINE_AA,
+        )
+        y_text += line_h
+
+
 def _is_two_fingers_up_pose(hand_landmarks, mp_hands) -> bool:
     lm = hand_landmarks.landmark
     index_up = (
@@ -975,7 +1027,7 @@ def main() -> None:
                                 timer_running = True
                                 timer_last_update = now
                                 status_text = "closed fist detected -> timer started"
-                        elif (not timer_toggled_now) and (not timer_visible) and open_palm_detector.update(
+                        elif (not timer_toggled_now) and open_palm_detector.update(
                             hand_landmarks, mp_hands, now
                         ):
                             if _send_k_key():
@@ -1007,6 +1059,8 @@ def main() -> None:
                     (0, 255, 255),
                     2,
                 )
+            # Meniu gesturi in partea dreapta
+            _draw_gesture_menu(frame)
             # fereastra cu rezultatul procesarii
             cv2.imshow(window_title, frame)
 

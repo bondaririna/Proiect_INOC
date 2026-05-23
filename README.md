@@ -38,19 +38,18 @@ python .\src\main.py
 
 - `Swipe right` cu toate degetele ridicate -> `Right Arrow` (YouTube `+5s`)
 - `Swipe left` cu toate degetele ridicate -> `Left Arrow` (YouTube `-5s`)
-- `Open palm` (o mana, mentinut scurt) -> `K` (YouTube `pause/play`)  
-  `Nota:` acest gest este activ doar cand timerul nu este vizibil.
+- `Open palm` (o mana, mentinut scurt) -> `K` (YouTube `pause/play`) — activ si cand timerul este vizibil
 - `2 palme deschise` -> toggle timer (afisare/ascundere)
 - `2 degete ridicate` (cand timerul este vizibil) -> `+5 minute` la timer
 - `Pumn inchis` (cand timerul este vizibil) -> start/pause countdown
 - `Index up motion` (miscare in sus cu aratatorul) -> `Volume Up`
 - `Index down hold` (aratator orientat in jos, mentinut) -> `Volume Down`
 - `Crossed index fingers` (X cu doua aratatoare, doua maini) -> `Ctrl+W` (inchide tab-ul curent)
+- `Tasta Q` (de la tastatura) -> inchide aplicatia
 
 ## Afisare in fereastra camerei
 
 - In preview se afiseaza doar timerul (`TIMER HH:MM:SS`), cand este vizibil.
-- Nu se afiseaza texte de status sau instructiuni in overlay.
 
 ## Configurare `.env`
 
